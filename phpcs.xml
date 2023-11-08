@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ruleset name="Base Coding Standard">
+
+    <description>Base Coding Standard - PSR12</description>
+
+    <!-- README: http://edorian.github.io/php-coding-standard-generator/#phpcs -->
+
+    <file>src</file>
+    <file>tests</file>
+
+    <!-- Exclude Composer vendor directory. -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+
+
+    <!-- You can hard-code custom php.ini settings into your custom standard. -->
+    <ini name="memory_limit" value="256M"/>
+
+
+    <!-- Call with arguments -->
+    <arg name="encoding"   value="utf-8"/>
+    <arg name="extensions" value="php"/>
+    <arg name="tab-width"  value="4"/>
+    <arg name="parallel"   value="5"/>
+    <arg name="report"     value="full"/>
+    <arg value="np"/>
+
+
+    <!--
+        There is a special internal error message produced by PHP_CodeSniffer
+        when it is unable to detect code in a file, possible due to
+        the use of short open tags even though php.ini disables them.
+        You can disable this message in the same way as sniff messages.
+        Again, the code here will be displayed in the PHP_CodeSniffer
+        output when using the -s command line argument while checking a file.
+    -->
+    <rule ref="Internal.NoCodeFound">
+        <severity>0</severity>
+    </rule>
+
+
+    <!-- Don't hide tokenizer exceptions -->
+    <rule ref="Internal.Tokenizer.Exception">
+        <type>error</type>
+    </rule>
+
+
+    <!-- Include the whole PSR-2 standard -->
+    <rule ref="PSR12">
+        <!-- To address at a later point in time. -->
+        <exclude name="Generic.Files.LineLength.TooLong"/>
+
+        <!-- Ignoring a number of whitespace issues around blank lines. -->
+        <exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace"/>
+        <exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace"/>
+        <exclude name="PSR2.Classes.ClassDeclaration"/>
+        <exclude name="PSR12.Classes.OpeningBraceSpace"/>
+        <exclude name="PSR12.Classes.AnonClassDeclaration"/>
+    </rule>
+
+
+    <!-- ==================== -->
+    <!-- === Array Sniffs === -->
+    <!-- ==================== -->
+
+    <rule ref="Squiz.Arrays.ArrayDeclaration">
+        <exclude name="Squiz.Arrays.ArrayDeclaration.KeySpecified"/>
+        <exclude name="Squiz.Arrays.ArrayDeclaration.NoKeySpecified"/>
+        <exclude name="Squiz.Arrays.ArrayDeclaration.ValueNoNewline"/>
+    </rule>
+
+    <!-- We use custom indent rules for arrays -->
+    <rule ref="Generic.Arrays.ArrayIndent"/>
+
+    <!-- Ensures short-array notation. -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+    <!-- Ensures there are no spaces around array brackets -->
+    <rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
+
+    <rule ref="Squiz.Arrays.ArrayDeclaration.KeyNotAligned">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Arrays.ArrayDeclaration.ValueNotAligned">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Arrays.ArrayDeclaration.CloseBraceNotAligned">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Arrays.ArrayDeclaration.CloseBraceNewLine">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Single and multi-line arrays are both allowed. -->
+    <rule ref="Squiz.Arrays.ArrayDeclaration.SingleLineNotAllowed">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Arrays.ArrayDeclaration.MultiLineNotAllowed">
+        <severity>0</severity>
+    </rule>
+
+    <!-- All nice and good, but too much of a fuss for the outer array of nested arrays. -->
+    <rule ref="Squiz.Arrays.ArrayDeclaration.DoubleArrowNotAligned">
+        <severity>0</severity>
+    </rule>
+
+
+    <!-- ====================== -->
+    <!-- === Classes Sniffs === -->
+    <!-- ====================== -->
+
+    <!-- Classes with duplicate names are not allowed -->
+    <rule ref="Generic.Classes.DuplicateClassName"/>
+
+    <!--
+        Classes must have their opening brace on a new line and must indeted by $indent spaces.
+        http://pear.php.net/manual/en/standards.classdef.php
+    -->
+    <rule ref="PEAR.Classes.ClassDeclaration"/>
+
+    <!-- Checks the declaration of the class and its inheritance is correct -->
+    <rule ref="Squiz.Classes.ClassDeclaration"/>
+
+    <!-- Tests self member references -->
+    <rule ref="Squiz.Classes.SelfMemberReference"/>
+
+
+    <!-- ============================ -->
+    <!-- === Code Analysis Sniffs === -->
+    <!-- ============================ -->
+
+    <!-- Warns when it finds empty PHP open/close tag combinations or superfluous semicolons. -->
+    <rule ref="Generic.CodeAnalysis.EmptyPHPStatement"/>
+
+    <!-- Statements may not have an empty body. -->
+    <rule ref="Generic.CodeAnalysis.EmptyStatement">
+        <exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedCatch"/>
+    </rule>
+
+    <!-- If- and elseif-statements may not be unconditional. -->
+    <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+
+    <!-- If a class is declared as being final, it is redundant to redeclare methods as final -->
+    <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+
+    <!-- Detects unnecessary overridden methods that simply call their parent -->
+    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+
+    <!-- Reports cases where incrementer jumbling might happen in 'for' loops. -->
+    <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+
+    <!-- ================================= -->
+    <!-- === Control Structures Sniffs === -->
+    <!-- ================================= -->
+
+    <!-- Inline controls (IF, ELSE, FOR, WHILE) must have brackets -->
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+
+    <!-- The keyword elseif SHOULD be used instead of else if so that all control keywords look like single words. -->
+    <rule ref="PSR2.ControlStructures.ElseIfDeclaration">
+        <type>error</type>
+    </rule>
+
+
+    <!-- ==================== -->
+    <!-- === Files Sniffs === -->
+    <!-- ==================== -->
+
+
+    <!-- ========================= -->
+    <!-- === Formatting Sniffs === -->
+    <!-- ========================= -->
+
+    <rule ref="Squiz.Formatting.OperatorBracket"/>
+
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+
+    <!-- Force whitespace after `!` -->
+    <rule ref="Generic.Formatting.SpaceAfterNot"/>
+
+
+    <!-- ======================== -->
+    <!-- === Functions Sniffs === -->
+    <!-- ======================== -->
+
+    <rule ref="Squiz.Functions.FunctionDuplicateArgument"/>
+
+    <!-- Disallows usage of call-time pass-by-reference. See: http://php.net/manual/en/language.references.pass.php -->
+    <rule ref="Generic.Functions.CallTimePassByReference"/>
+
+
+    <!-- ====================== -->
+    <!-- === Metrics Sniffs === -->
+    <!-- ====================== -->
+
+    <!--
+        Defines a maximum $nestingLevel and $absoluteNestingLevel for functions.
+        If $nestingLevel has the same value as $absoluteNestingLevel then there will be only errors and no warnings.
+    -->
+    <rule ref="Generic.Metrics.NestingLevel"/>
+
+
+    <!-- ================================= -->
+    <!-- === Naming Conventions Sniffs === -->
+    <!-- ================================= -->
+
+    <!-- Constructor should be in PHP5 mode (__construct) -->
+    <rule ref="Generic.NamingConventions.ConstructorName"/>
+
+    <!-- Check that function and method names are in camelCaps. -->
+    <rule ref="Generic.NamingConventions.CamelCapsFunctionName">
+        <properties>
+            <!-- Allow for two adjacent capital letters for acronyms. -->
+            <property name="strict" value="false"/>
+        </properties>
+    </rule>
+
+
+    <!-- ====================== -->
+    <!-- === Objects Sniffs === -->
+    <!-- ====================== -->
+
+
+    <!-- ======================== -->
+    <!-- === Operators Sniffs === -->
+    <!-- ======================== -->
+
+    <!-- Disallow "and" and "or". Use && and || instead -->
+    <rule ref="Squiz.Operators.ValidLogicalOperators"/>
+
+
+    <!-- ================== -->
+    <!-- === PHP Sniffs === -->
+    <!-- ================== -->
+
+    <!-- Ensures PHP believes the syntax is clean. -->
+    <rule ref="Generic.PHP.Syntax"/>
+
+    <!-- Deprecated functions are not allowed. This is a modern codebase -->
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+
+    <!-- Makes sure that shorthand PHP open tags are not used. -->
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+
+    <rule ref="Generic.PHP.DisallowShortOpenTag.EchoFound"/>
+
+    <!-- Forbid global functions -->
+    <rule ref="Squiz.Functions.GlobalFunction"/>
+
+    <!-- Forbid `global` -->
+    <rule ref="Squiz.PHP.GlobalKeyword"/>
+
+    <!-- Discourage unsafe functions -->
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array">
+                <element key="die" value="null"/>
+                <element key="var_dump" value="null"/>
+                <element key="sizeof" value="count"/>
+                <element key="delete" value="unset"/>
+                <element key="print" value="echo"/>
+                <element key="is_null" value="null"/>
+                <element key="create_function" value="null"/>
+                <element key="dd" value="null"/>
+                <element key="show_source" value="highlight_file"/>
+                <element key="pos" value="current"/>
+                <element key="settype" value="null"/>
+                <element key="eval" value="null"/>
+                <element key="strchr" value="strstr"/>
+                <element key="chop" value="rtrim"/>
+                <element key="close" value="closedir"/>
+                <element key="compact" value="null"/>
+                <element key="delete" value="unset"/>
+                <element key="doubleval" value="floatval"/>
+                <element key="extract" value="null"/>
+                <element key="fputs" value="fwrite"/>
+                <element key="ini_alter" value="ini_set"/>
+                <element key="is_double" value="is_float"/>
+                <element key="is_integer" value="is_int"/>
+                <element key="is_long" value="is_int"/>
+                <element key="is_null" value="null"/>
+                <element key="is_real" value="is_float"/>
+                <element key="is_writeable" value="is_writable"/>
+                <element key="join" value="implode"/>
+                <element key="key_exists" value="array_key_exists"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Disallows usage of the @ operator. -->
+    <rule ref="Generic.PHP.NoSilencedErrors">
+        <properties>
+            <property name="error" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Ensures the PHP_SAPI constant is used instead of php_sapi_name() -->
+    <rule ref="Generic.PHP.SAPIUsage"/>
+
+    <!-- Ensures all calls to builtin PHP functions are lowercase. -->
+    <rule ref="Squiz.PHP.LowercasePHPFunctions"/>
+
+    <!-- Forbid backtick operator -->
+    <rule ref="Generic.PHP.BacktickOperator"/>
+
+    <!-- Force PHP 7 param and return types to be lowercased -->
+    <rule ref="Generic.PHP.LowerCaseType"/>
+
+    <!-- Forbid dead code -->
+    <rule ref="Squiz.PHP.NonExecutableCode"/>
+
+
+    <!-- ==================== -->
+    <!-- === Scope Sniffs === -->
+    <!-- ==================== -->
+
+    <!-- Ensures that class members have scope modifiers. -->
+    <rule ref="Squiz.Scope.MemberVarScope"/>
+
+    <!-- Ensures that $this is not used in static methods to avoid runtime errors. -->
+    <rule ref="Squiz.Scope.StaticThisUsage"/>
+
+
+    <!-- ====================== -->
+    <!-- === Strings Sniffs === -->
+    <!-- ====================== -->
+
+    <!-- Use one string instead of concatenating 2 strings together -->
+    <rule ref="Generic.Strings.UnnecessaryStringConcat">
+        <properties>
+            <property name="allowMultiline" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Makes sure there are one spaces between the concatenation operator (.) the strings -->
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.Strings.DoubleQuoteUsage"/>
+    <rule ref="Squiz.Strings.DoubleQuoteUsage.ContainsVar">
+        <message>Variable "%s" not allowed in double quoted string; use sprintf(), vsprintf() or concatenation instead</message>
+    </rule>
+
+    <!-- Forbid braces around string in `echo` -->
+    <rule ref="Squiz.Strings.EchoedStrings"/>
+
+    <!-- Forbid blank line after function opening brace -->
+    <rule ref="Squiz.WhiteSpace.FunctionOpeningBraceSpace"/>
+
+
+    <!-- ============================== -->
+    <!-- === Version Control Sniffs === -->
+    <!-- ============================== -->
+
+
+    <!-- ========================== -->
+    <!-- === White Space Sniffs === -->
+    <!-- ========================== -->
+
+    <!-- PSR2 appears to ignore blank lines for superfluous whitespace and in several other places. Let's fix that. -->
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+        <properties>
+            <property name="ignoreBlankLines" value="false"/>
+        </properties>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.StartFile">
+        <severity>5</severity>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EndFile">
+        <severity>5</severity>
+    </rule>
+
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace.EmptyLines">
+        <severity>5</severity>
+    </rule>
+
+    <rule ref="Generic.WhiteSpace.ArbitraryParenthesesSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!--
+        Checks the separation between methods in a class or interface.
+        Methods are expected to have two blank lines between them.
+    -->
+    <rule ref="Squiz.WhiteSpace.FunctionSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+        </properties>
+    </rule>
+
+    <!-- Require there be no space between increment/decrement operator and its operand -->
+    <rule ref="Generic.WhiteSpace.IncrementDecrementSpacing"/>
+
+    <!-- Object operators must be indented 4 spaces if they are the first thing on a line. -->
+    <rule ref="PEAR.WhiteSpace.ObjectOperatorIndent"/>
+
+    <!-- Ensures all language constructs (without brackets) contain a single space between themselves and their content. -->
+    <rule ref="Generic.WhiteSpace.LanguageConstructSpacing"/>
+
+    <!-- Ensures that there is one space before and after a logical operator. -->
+    <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+
+    <!-- Ensures that there is one blank lines between each member declaration. -->
+    <rule ref="Squiz.WhiteSpace.MemberVarSpacing"/>
+
+    <!-- Ensures there is no whitespace before a ObjectOperator ( -> ). -->
+    <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Ensures that operators have one space surrounding them. -->
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Ensures that there is no whitespace before a semicolon. -->
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+
+    <!-- Ensures that the closing braces of scopes are on a new line and indented correctly. -->
+    <rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>
+
+    <!-- Ensure there is a single space after scope keywords. -->
+    <rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
+
+    <!--
+        Checks that no whitespace proceeds the first content of the file,
+        exists after the last content of the file, resides after content on any line, or are two empty lines in functions.
+    -->
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+
+
+    <!-- ============================================= -->
+    <!-- === Namespace and Use Declarations Sniffs === -->
+    <!-- ============================================= -->
+
+
+    <!-- ======================================== -->
+    <!-- === Classes, Properties, and Methods === -->
+    <!-- ======================================== -->
+
+    <!-- Private properties MUST not be prefixed with an underscore -->
+    <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
+        <type>error</type>
+    </rule>
+
+
+    <!-- ============== -->
+    <!-- === CUSTOM === -->
+    <!-- ============== -->
+
+    <!-- Force to have declare(strict_types) -->
+    <rule ref="Generic.PHP.RequireStrictTypes">
+        <type>error</type>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+        <properties>
+            <property name="searchAnnotations" value="true"/>
+        </properties>
+    </rule>
+</ruleset>
