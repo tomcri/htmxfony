@@ -36,7 +36,10 @@ class AbstractHtmxController extends AbstractSymfonyController
         return new HtmxResponse($content);
     }
 
-    protected function render(string $view, array $parameters = [], Response $response = null): Response|HtmxResponse
+    /**
+     * @return Response|HtmxResponse
+     */
+    protected function render(string $view, array $parameters = [], Response $response = null): Response
     {
         if ($response === null) {
             $response = new HtmxResponse();

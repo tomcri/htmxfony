@@ -20,7 +20,8 @@ use Twig\Loader\ArrayLoader;
 class AbstractHtmxControllerTest extends TestCase
 {
 
-    private ContainerInterface $container;
+    /** @var ContainerInterface  */
+    private $container;
 
     protected function setUp(): void
     {

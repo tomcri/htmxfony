@@ -13,10 +13,20 @@ use JsonSerializable;
 class HtmxTrigger
 {
 
+    private $name;
+
+    private $data = null;
+
+    /**
+     * @param string $name
+     * @param null|string|array|JsonSerializable $data
+     */
     public function __construct(
-        private readonly string $name,
-        private readonly null|string|array|JsonSerializable $data = null,
+        string $name,
+        $data = null
     ) {
+        $this->data = $data;
+        $this->name = $name;
     }
 
     public function getName(): string
@@ -24,7 +34,10 @@ class HtmxTrigger
         return $this->name;
     }
 
-    public function getData(): null|string|array|JsonSerializable
+    /**
+     * @return array|JsonSerializable|string|null
+     */
+    public function getData()
     {
         return $this->data;
     }

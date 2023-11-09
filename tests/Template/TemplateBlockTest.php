@@ -15,7 +15,7 @@ class TemplateBlockTest extends TestCase
         $templateBlock = new TemplateBlock(
             'templateFileName',
             'blockName',
-            ['prop' => 'val'],
+            ['prop' => 'val']
         );
         $this->assertSame('templateFileName', $templateBlock->getTemplateFileName());
         $this->assertSame('blockName', $templateBlock->getBlockName());

@@ -13,16 +13,40 @@ use JsonSerializable;
 class HtmxLocation implements JsonSerializable
 {
 
+    private $path;
+
+    private $source = null;
+
+    private $event = null;
+
+    private $handler = null;
+
+    private $target = null;
+
+    private $swap = null;
+
+    private $values = null;
+
+    private $headers = null;
+
     public function __construct(
-        private readonly string $path,
-        private readonly ?string $source = null,
-        private readonly ?string $event = null,
-        private readonly ?string $handler = null,
-        private readonly ?string $target = null,
-        private readonly ?string $swap = null,
-        private readonly ?array $values = null,
-        private readonly ?array $headers = null,
+        string $path,
+        ?string $source = null,
+        ?string $event = null,
+        ?string $handler = null,
+        ?string $target = null,
+        ?string $swap = null,
+        ?array $values = null,
+        ?array $headers = null
     ) {
+        $this->headers = $headers;
+        $this->values = $values;
+        $this->swap = $swap;
+        $this->target = $target;
+        $this->handler = $handler;
+        $this->event = $event;
+        $this->source = $source;
+        $this->path = $path;
     }
 
     public function getPath(): string
@@ -78,7 +102,9 @@ class HtmxLocation implements JsonSerializable
             'headers' => $this->getHeaders(),
         ];
 
-        return array_filter($data, fn($value) => $value !== null);
+        return array_filter($data, function ($value) {
+            return $value !== null;
+        });
     }
 
     public function __toString(): string

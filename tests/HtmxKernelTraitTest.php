@@ -28,7 +28,7 @@ class HtmxKernelTraitTest extends TestCase
     public function testHtmxKernelTrait(): void
     {
         $container = $this->createMock(ContainerInterface::class);
-        $container->method('get')->willReturnCallback(callback: function ($id) {
+        $container->method('get')->willReturnCallback(function ($id) {
             if ($id === 'http_kernel') {
                 $controllerResolver = $this->createMock(ControllerResolverInterface::class);
                 $controllerResolver->method('getController')->willReturn(function (Request $request) {

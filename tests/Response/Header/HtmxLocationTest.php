@@ -30,7 +30,7 @@ class HtmxLocationTest extends TestCase
         $location = new HtmxLocation('https://htmx.org');
         $this->assertNull($location->getEvent());
 
-        $location = new HtmxLocation('https://htmx.org', event: 'click');
+        $location = new HtmxLocation('https://htmx.org', null, 'click');
         $this->assertSame('click', $location->getEvent());
     }
 
@@ -39,7 +39,7 @@ class HtmxLocationTest extends TestCase
         $location = new HtmxLocation('https://htmx.org');
         $this->assertNull($location->getHandler());
 
-        $location = new HtmxLocation('https://htmx.org', handler: 'click');
+        $location = new HtmxLocation('https://htmx.org', null, null, 'click');
         $this->assertSame('click', $location->getHandler());
     }
 
@@ -48,7 +48,7 @@ class HtmxLocationTest extends TestCase
         $location = new HtmxLocation('https://htmx.org');
         $this->assertNull($location->getTarget());
 
-        $location = new HtmxLocation('https://htmx.org', target: 'click');
+        $location = new HtmxLocation('https://htmx.org', null, null, null, 'click');
         $this->assertSame('click', $location->getTarget());
     }
 
@@ -57,7 +57,7 @@ class HtmxLocationTest extends TestCase
         $location = new HtmxLocation('https://htmx.org');
         $this->assertNull($location->getSwap());
 
-        $location = new HtmxLocation('https://htmx.org', swap: 'click');
+        $location = new HtmxLocation('https://htmx.org', null, null, null, null, 'click');
         $this->assertSame('click', $location->getSwap());
     }
 
@@ -66,7 +66,7 @@ class HtmxLocationTest extends TestCase
         $location = new HtmxLocation('https://htmx.org');
         $this->assertNull($location->getValues());
 
-        $location = new HtmxLocation('https://htmx.org', values: ['foo' => 'bar']);
+        $location = new HtmxLocation('https://htmx.org', null, null, null, null, null, ['foo' => 'bar']);
         $this->assertSame(['foo' => 'bar'], $location->getValues());
     }
 
@@ -75,7 +75,7 @@ class HtmxLocationTest extends TestCase
         $location = new HtmxLocation('https://htmx.org');
         $this->assertNull($location->getHeaders());
 
-        $location = new HtmxLocation('https://htmx.org', headers: ['foo' => 'bar']);
+        $location = new HtmxLocation('https://htmx.org', null, null, null, null, null, null, ['foo' => 'bar']);
         $this->assertSame(['foo' => 'bar'], $location->getHeaders());
     }
 
