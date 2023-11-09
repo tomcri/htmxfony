@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Htmxfony\Tests;
 
-use Htmxfony\Controller\AbstractHtmxController;
+use Htmxfony\Controller\HtmxControllerTrait;
 use Htmxfony\Request\HtmxRequest;
 use Htmxfony\Response\HtmxRedirectResponse;
 use Htmxfony\Response\HtmxRefreshResponse;
@@ -14,10 +14,11 @@ use Htmxfony\Template\TemplateBlock;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
-class AbstractHtmxControllerTest extends TestCase
+class HtmxControllerTraitTest extends TestCase
 {
 
     /** @var ContainerInterface  */
@@ -43,8 +44,9 @@ class AbstractHtmxControllerTest extends TestCase
 
     public function testRender(): void
     {
-        $controller = new class ($this->container) extends AbstractHtmxController
+        $controller = new class ($this->container) extends AbstractController
         {
+            use HtmxControllerTrait;
 
             public function __construct(ContainerInterface $container)
             {
@@ -74,8 +76,9 @@ class AbstractHtmxControllerTest extends TestCase
 
     public function testRenderBlock(): void
     {
-        $controller = new class ($this->container) extends AbstractHtmxController
+        $controller = new class ($this->container) extends AbstractController
         {
+            use HtmxControllerTrait;
 
             public function __construct(ContainerInterface $container)
             {
@@ -111,8 +114,9 @@ class AbstractHtmxControllerTest extends TestCase
 
     public function testRedirect(): void
     {
-        $controller = new class ($this->container) extends AbstractHtmxController
+        $controller = new class ($this->container) extends AbstractController
         {
+            use HtmxControllerTrait;
 
             public function __construct(ContainerInterface $container)
             {
@@ -136,8 +140,9 @@ class AbstractHtmxControllerTest extends TestCase
 
     public function testRefresh(): void
     {
-        $controller = new class ($this->container) extends AbstractHtmxController
+        $controller = new class ($this->container) extends AbstractController
         {
+            use HtmxControllerTrait;
 
             public function __construct(ContainerInterface $container)
             {
@@ -159,8 +164,9 @@ class AbstractHtmxControllerTest extends TestCase
 
     public function testStopPolling(): void
     {
-        $controller = new class ($this->container) extends AbstractHtmxController
+        $controller = new class ($this->container) extends AbstractController
         {
+            use HtmxControllerTrait;
 
             public function __construct(ContainerInterface $container)
             {

@@ -11,12 +11,11 @@ use Htmxfony\Response\HtmxStopPollingResponse;
 use Htmxfony\Template\TemplateBlock;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as AbstractSymfonyController;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 use Twig\TemplateWrapper;
 
-class AbstractHtmxController extends AbstractSymfonyController
+trait HtmxControllerTrait
 {
 
     /**
