@@ -1,6 +1,6 @@
 ### Symfony sdk for [htmx](https://htmx.org/)
-- [x] Symfony 6.3 or greater
-- [x] PHP 8.1 or greater
+- [x] Symfony 4.0 or greater
+- [x] PHP 7.1 or greater
 
 ### Installation
 
