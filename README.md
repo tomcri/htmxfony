@@ -1,12 +1,14 @@
 ### Symfony sdk for [htmx](https://htmx.org/)
-- [x] Symfony 4.0 or greater
+- [x] Symfony 5.4 or greater
 - [x] PHP 7.1 or greater
 
 ### Installation
 
 #### Composer
 
-```composer require tomcri/htmxfony```
+```bash
+composer require tomcri/htmxfony
+```
 
 #### Configuration
 
