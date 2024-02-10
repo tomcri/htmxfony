@@ -21,7 +21,6 @@ use Twig\Loader\ArrayLoader;
 class HtmxControllerTraitTest extends TestCase
 {
 
-    /** @var ContainerInterface  */
     private $container;
 
     protected function setUp(): void
@@ -55,7 +54,7 @@ class HtmxControllerTraitTest extends TestCase
 
             public function index(HtmxRequest $request): HtmxResponse
             {
-                return $this->render(
+                return $this->htmxRender(
                     'test.html.twig',
                     [
                         'value1' => $request->get('value1'),
@@ -87,7 +86,7 @@ class HtmxControllerTraitTest extends TestCase
 
             public function index(HtmxRequest $request): HtmxResponse
             {
-                return $this->renderBlock(
+                return $this->htmxRenderBlock(
                     new TemplateBlock(
                         'test.html.twig',
                         'block1',

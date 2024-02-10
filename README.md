@@ -68,7 +68,7 @@ public function index(HtmxRequest $request): Response
 {
     ...
 
-    return $this->render('homepage/index.html.twig') // or new HtmxResponse()
+    return $this->htmxRender('homepage/index.html.twig') // or new HtmxResponse()
         // Optional headers:
         ->setLocation(new HtmxLocation( // allows you to do a client-side redirect that does not do a full page reload. (https://htmx.org/headers/hx-location/)
             "/location", // path
@@ -127,7 +127,7 @@ use HtmxControllerTrait;
 
 public function index(HtmxRequest $request): Response
 {
-    return $this->renderBlock( //render one or more blocks of a template
+    return $this->htmxRenderBlock( //render one or more blocks of a template
         new TemplateBlock('homepage/index.html.twig', 'block1', [/*params*/]),
         new TemplateBlock('homepage/other.html.twig', 'block2', [/*params*/]),
     );
