@@ -6,10 +6,10 @@ namespace Htmxfony\Tests;
 
 use Htmxfony\HtmxKernelTrait;
 use Htmxfony\Request\HtmxRequest;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,58 +27,52 @@ class HtmxKernelTraitTest extends TestCase
 
     public function testHtmxKernelTrait(): void
     {
-        $container = $this->createMock(ContainerInterface::class);
-        $container->method('get')->willReturnCallback(function ($id) {
-            if ($id === 'http_kernel') {
-                $controllerResolver = $this->createMock(ControllerResolverInterface::class);
-                $controllerResolver->method('getController')->willReturn(function (Request $request) {
-                    $this->assertInstanceOf(HtmxRequest::class, $request);
+        $container = new Container();
+        $container->set('http_kernel', (function () {
+            $controllerResolver = $this->createMock(ControllerResolverInterface::class);
+            $controllerResolver->method('getController')->willReturn(function (Request $request) {
+                $this->assertInstanceOf(HtmxRequest::class, $request);
 
-                    return new Response('', Response::HTTP_OK);
-                });
+                return new Response('', Response::HTTP_OK);
+            });
 
-                $assertRequest = function ($request) {
-                    $this->assertInstanceOf(HtmxRequest::class, $request);
-                };
-                $eventDispatcher = new EventDispatcher();
-                $eventDispatcher->addSubscriber(new class($assertRequest) implements EventSubscriberInterface {
+            $assertRequest = function ($request) {
+                $this->assertInstanceOf(HtmxRequest::class, $request);
+            };
+            $eventDispatcher = new EventDispatcher();
+            $eventDispatcher->addSubscriber(new class($assertRequest) implements EventSubscriberInterface {
 
-                    /** @var callable */
-                    private $assertRequest;
+                /** @var callable */
+                private $assertRequest;
 
-                    public function __construct(callable $assertRequest)
-                    {
-                        $this->assertRequest = $assertRequest;
-                    }
+                public function __construct(callable $assertRequest)
+                {
+                    $this->assertRequest = $assertRequest;
+                }
 
-                    public static function getSubscribedEvents()
-                    {
-                        return [
-                            KernelEvents::REQUEST => [
-                                ['testRequest', 90],
-                            ],
-                        ];
-                    }
+                public static function getSubscribedEvents()
+                {
+                    return [
+                        KernelEvents::REQUEST => [
+                            ['testRequest', 90],
+                        ],
+                    ];
+                }
 
-                    public function testRequest(RequestEvent $event): void
-                    {
-                        ($this->assertRequest)($event->getRequest());
-                    }
+                public function testRequest(RequestEvent $event): void
+                {
+                    ($this->assertRequest)($event->getRequest());
+                }
 
-                });
+            });
 
-                return new HttpKernel(
-                    $eventDispatcher,
-                    $controllerResolver,
-                    new RequestStack(),
-                    new ArgumentResolver()
-                );
-            }
-            throw new InvalidArgumentException(sprintf('Unknown service ID: %s', $id));
-        });
-        $container->method('has')->willReturnCallback(function ($id) {
-            return $id === 'http_kernel';
-        });
+            return new HttpKernel(
+                $eventDispatcher,
+                $controllerResolver,
+                new RequestStack(),
+                new ArgumentResolver()
+            );
+        })());
 
         $kernel = new class ('test', true) extends Kernel {
             use HtmxKernelTrait;
