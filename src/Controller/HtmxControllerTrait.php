@@ -8,6 +8,7 @@ use Htmxfony\Response\HtmxRedirectResponse;
 use Htmxfony\Response\HtmxRefreshResponse;
 use Htmxfony\Response\HtmxResponse;
 use Htmxfony\Response\HtmxStopPollingResponse;
+use Htmxfony\Template\Template;
 use Htmxfony\Template\TemplateBlock;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -57,6 +58,16 @@ trait HtmxControllerTrait
     protected function htmxStopPolling(): HtmxStopPollingResponse
     {
         return new HtmxStopPollingResponse();
+    }
+
+    protected function htmxRenderTemplate(Template ...$templates): HtmxResponse
+    {
+        $content = '';
+        foreach ($templates as $template) {
+            $content .= $this->container->get('twig')->render($template->getTemplateFileName(), $template->getContext());
+        }
+
+        return new HtmxResponse($content);
     }
 
 }

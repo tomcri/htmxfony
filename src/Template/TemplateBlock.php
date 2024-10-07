@@ -7,25 +7,22 @@ namespace Htmxfony\Template;
 class TemplateBlock
 {
 
-    private $templateFileName;
-
     private $blockName;
 
-    private $context;
+    private $template;
 
     public function __construct(
         string $templateFileName,
         string $blockName,
         array $context = []
     ) {
-        $this->context = $context;
         $this->blockName = $blockName;
-        $this->templateFileName = $templateFileName;
+        $this->template = new Template($templateFileName, $context);
     }
 
     public function getTemplateFileName(): string
     {
-        return $this->templateFileName;
+        return $this->template->getTemplateFileName();
     }
 
     public function getBlockName(): string
@@ -35,7 +32,7 @@ class TemplateBlock
 
     public function getContext(): array
     {
-        return $this->context;
+        return $this->template->getContext();
     }
 
 }

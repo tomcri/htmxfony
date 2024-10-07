@@ -10,6 +10,7 @@ use Htmxfony\Response\HtmxRedirectResponse;
 use Htmxfony\Response\HtmxRefreshResponse;
 use Htmxfony\Response\HtmxResponse;
 use Htmxfony\Response\HtmxStopPollingResponse;
+use Htmxfony\Template\Template;
 use Htmxfony\Template\TemplateBlock;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -183,6 +184,42 @@ class HtmxControllerTraitTest extends TestCase
 
         $this->assertInstanceOf(HtmxStopPollingResponse::class, $response);
         $this->assertSame(HtmxStopPollingResponse::HX_CODE_STOP_POLLING, $response->getStatusCode());
+    }
+
+    public function testRenderTemplate(): void
+    {
+        $controller = new class ($this->container) extends AbstractController
+        {
+            use HtmxControllerTrait;
+
+            public function __construct(ContainerInterface $container)
+            {
+                $this->container = $container;
+            }
+
+            public function index(HtmxRequest $request): HtmxResponse
+            {
+                return $this->htmxRenderTemplate(
+                    new Template(
+                        'test.html.twig',
+                        ['value1' => $request->get('value1'), 'value2' => $request->get('value2')]
+                    ),
+                    new Template(
+                        'test.html.twig',
+                        ['value1' => 'val3', 'value2' => 'val4']
+                    )
+                );
+            }
+
+        };
+
+        $htmxRequest = new HtmxRequest();
+        $htmxRequest->request->set('value1', 'test1');
+        $htmxRequest->request->set('value2', 'test2');
+        $response = $controller->index($htmxRequest);
+
+        $this->assertEquals('[Text outside blocks]test1test2[Text outside blocks]val3val4', $response->getContent());
+        $this->assertInstanceOf(HtmxResponse::class, $response);
     }
 
 }
