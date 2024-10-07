@@ -13,7 +13,7 @@ class Template
 
     public function __construct(
         string $view,
-        array $context,
+        array $context = []
     ) {
         $this->view = $view;
         $this->context = $context;
