@@ -36,7 +36,7 @@ trait HtmxControllerTrait
         return new HtmxResponse($content);
     }
 
-    protected function htmxRender(string $view, array $parameters = [], Response $response = null): HtmxResponse
+    protected function htmxRender(string $view, array $parameters = [], ?Response $response = null): HtmxResponse
     {
         if ($response === null) {
             $response = new HtmxResponse();
