@@ -13,7 +13,19 @@ trait HtmxKernelTrait
 
     public function handle(Request $request, $type = 1, $catch = true): Response
     {
-        return parent::handle(HtmxRequest::createFromGlobals(), $type, $catch);
+        if (!$request instanceof HtmxRequest) {
+            $request = new HtmxRequest(
+                $request->query->all(),
+                $request->request->all(),
+                $request->attributes->all(),
+                $request->cookies->all(),
+                $request->files->all(),
+                $request->server->all(),
+                $request->getContent()
+            );
+        }
+
+        return parent::handle($request, $type, $catch);
     }
 
 }
