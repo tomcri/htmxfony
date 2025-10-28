@@ -50,6 +50,11 @@ trait HtmxControllerTrait
         return new HtmxRedirectResponse($url);
     }
 
+    protected function htmxRedirectToRoute(string $route, array $parameters = []): HtmxRedirectResponse
+    {
+        return new HtmxRedirectResponse($this->generateUrl($route, $parameters));
+    }
+
     protected function htmxRefresh(): HtmxRefreshResponse
     {
         return new HtmxRefreshResponse();
