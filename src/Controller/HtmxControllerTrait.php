@@ -14,7 +14,6 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
-use Twig\TemplateWrapper;
 
 trait HtmxControllerTrait
 {
@@ -28,9 +27,7 @@ trait HtmxControllerTrait
     {
         $content = '';
         foreach ($blocks as $block) {
-            /** @var TemplateWrapper $template */
-            $template = $this->container->get('twig')->load($block->getTemplateFileName());
-            $content .= $template->renderBlock($block->getBlockName(), $block->getContext());
+            $content .= $this->renderBlockView($block->getTemplateFileName(), $block->getBlockName(), $block->getContext());
         }
 
         return new HtmxResponse($content);
@@ -69,7 +66,7 @@ trait HtmxControllerTrait
     {
         $content = '';
         foreach ($templates as $template) {
-            $content .= $this->container->get('twig')->render($template->getTemplateFileName(), $template->getContext());
+            $content .= $this->renderView($template->getTemplateFileName(), $template->getContext());
         }
 
         return new HtmxResponse($content);
